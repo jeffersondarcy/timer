@@ -24,14 +24,11 @@ const MainScreen = props => {
       scrollable={false}
       hasSafeArea={false}
     >
-      {/* Add Timer */}
-      <IconButton
-        style={styles(theme).IconButtona0f497c1}
-        icon={'Ionicons/add-circle'}
-        size={64}
-      />
       <Utils.CustomCodeErrorBoundary>
         <CustomCode.CreateNewTimer />
+      </Utils.CustomCodeErrorBoundary>
+      <Utils.CustomCodeErrorBoundary>
+        <CustomCode.ShowContext />
       </Utils.CustomCodeErrorBoundary>
       <FlatList
         data={Constants['timers']}
@@ -62,9 +59,6 @@ const MainScreen = props => {
         showsHorizontalScrollIndicator={true}
         showsVerticalScrollIndicator={true}
       />
-      <Utils.CustomCodeErrorBoundary>
-        <CustomCode.MyButton />
-      </Utils.CustomCodeErrorBoundary>
     </ScreenContainer>
   );
 };

@@ -2,7 +2,9 @@
 
 const _jsxFileName = '';
 import React, { useEffect, useState } from 'react';
-import { Text, Touchable } from 'react-native';
+import { Text } from 'react-native';
+import { Touchable } from '@draftbit/ui';
+
 import * as GlobalVariableContext from '../config/GlobalVariableContext';
 
 export const Timer = ({ start }) => {
@@ -15,7 +17,7 @@ export const Timer = ({ start }) => {
   });
   return React.createElement(
     Text,
-    { __self: this, __source: { fileName: _jsxFileName, lineNumber: 17 } },
+    { __self: this, __source: { fileName: _jsxFileName, lineNumber: 19 } },
     getFormatedDuration(duration)
   );
 };
@@ -35,7 +37,7 @@ export const ShowContext = () => {
   const variables = GlobalVariableContext.useValues();
   return React.createElement(
     Text,
-    { __self: this, __source: { fileName: _jsxFileName, lineNumber: 33 } },
+    { __self: this, __source: { fileName: _jsxFileName, lineNumber: 35 } },
     JSON.stringify(variables)
   );
 };
@@ -46,26 +48,28 @@ const getNewTimers = timers => {
 
   return [...timers, newTimer];
 };
-export const CreateNewTimer = (/*{children}*/) => {
+export const CreateNewTimer = props => {
+  console.log(props);
   const { timers } = GlobalVariableContext.useValues();
   const setGlobalVariable = GlobalVariableContext.useSetValue();
 
-  const handleClick = () => {
+  const handlePress = () => {
     setGlobalVariable({ key: 'timers', value: getNewTimers(timers) });
   };
 
+  //return <Text>dfzdghdgh</Text>
   //return <Touchable onClick={handleClick}>{children}</Touchable>
   return React.createElement(
     Touchable,
     {
-      onClick: handleClick,
+      onPress: handlePress,
       __self: this,
-      __source: { fileName: _jsxFileName, lineNumber: 51 },
+      __source: { fileName: _jsxFileName, lineNumber: 55 },
     },
     React.createElement(
       Text,
-      { __self: this, __source: { fileName: _jsxFileName, lineNumber: 51 } },
+      { __self: this, __source: { fileName: _jsxFileName, lineNumber: 55 } },
       'dfzdghdgh'
-    )
+    ) /*children*/
   );
 };
