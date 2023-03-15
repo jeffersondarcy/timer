@@ -3,9 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DeviceVariables = {
-  timers: [{ start: 1678350781158 }, { start: 1678350712345 }],
-};
+const DeviceVariables = { timers: [] };
 const AppVariables = {};
 const GlobalVariableContext = React.createContext();
 const GlobalVariableUpdater = React.createContext();

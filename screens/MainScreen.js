@@ -2,21 +2,32 @@ import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as CustomCode from '../custom-files/CustomCode';
+import addNewTimer from '../global-functions/addNewTimer';
 import * as Utils from '../utils';
-import {
-  IconButton,
-  ScreenContainer,
-  Touchable,
-  withTheme,
-} from '@draftbit/ui';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { Button, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 const MainScreen = props => {
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
+  const setGlobalVariableValue = GlobalVariables.useSetValue();
 
   const { theme } = props;
   const { navigation } = props;
+
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    try {
+      if (!isFocused) {
+        return;
+      }
+      addNewTimer(Variables, setGlobalVariableValue);
+      console.log(Constants['timers']);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isFocused]);
 
   return (
     <ScreenContainer
@@ -24,9 +35,6 @@ const MainScreen = props => {
       scrollable={false}
       hasSafeArea={false}
     >
-      <Utils.CustomCodeErrorBoundary>
-        <CustomCode.CreateNewTimer />
-      </Utils.CustomCodeErrorBoundary>
       <Utils.CustomCodeErrorBoundary>
         <CustomCode.ShowContext />
       </Utils.CustomCodeErrorBoundary>
@@ -48,7 +56,11 @@ const MainScreen = props => {
                 }
               }}
             >
-              <View />
+              <View>
+                <Utils.CustomCodeErrorBoundary>
+                  <CustomCode.Timer {...listData} />
+                </Utils.CustomCodeErrorBoundary>
+              </View>
             </Touchable>
           );
         }}
@@ -59,13 +71,26 @@ const MainScreen = props => {
         showsHorizontalScrollIndicator={true}
         showsVerticalScrollIndicator={true}
       />
+      <Button
+        onPress={() => {
+          try {
+            addNewTimer(Variables, setGlobalVariableValue);
+          } catch (err) {
+            console.error(err);
+          }
+        }}
+        style={GlobalStyles.ButtonStyles(theme)['Button']}
+        title={'Start New Timer'}
+      />
+      <Utils.CustomCodeErrorBoundary>
+        <></>
+      </Utils.CustomCodeErrorBoundary>
     </ScreenContainer>
   );
 };
 
 const styles = theme =>
   StyleSheet.create({
-    IconButtona0f497c1: { bottom: '10%', position: 'absolute', right: '50%' },
     screen: { backgroundColor: theme.colors['Background'] },
   });
 

@@ -2,7 +2,7 @@
 
 const _jsxFileName = '';
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import { Touchable } from '@draftbit/ui';
 
 import * as GlobalVariableContext from '../config/GlobalVariableContext';
@@ -48,8 +48,8 @@ const getNewTimers = timers => {
 
   return [...timers, newTimer];
 };
-export const CreateNewTimer = props => {
-  console.log(props);
+export const CreateNewTimer = ({ children }) => {
+  console.log(children);
   const { timers } = GlobalVariableContext.useValues();
   const setGlobalVariable = GlobalVariableContext.useSetValue();
 
@@ -57,19 +57,30 @@ export const CreateNewTimer = props => {
     setGlobalVariable({ key: 'timers', value: getNewTimers(timers) });
   };
 
-  //return <Text>dfzdghdgh</Text>
-  //return <Touchable onClick={handleClick}>{children}</Touchable>
+  //return <View>{children}</View>
   return React.createElement(
     Touchable,
     {
       onPress: handlePress,
       __self: this,
-      __source: { fileName: _jsxFileName, lineNumber: 55 },
+      __source: { fileName: _jsxFileName, lineNumber: 54 },
     },
-    React.createElement(
-      Text,
-      { __self: this, __source: { fileName: _jsxFileName, lineNumber: 55 } },
-      'dfzdghdgh'
-    ) /*children*/
+    children
   );
+  //return <Touchable onClick={handleClick}>{children}</Touchable>
+  //return <Touchable onPress={handlePress}><Text>{JSON.stringify(children)}</Text></Touchable>
 };
+
+const styles = StyleSheet.create({
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.5,
+  },
+});
