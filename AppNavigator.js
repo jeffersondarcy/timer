@@ -67,7 +67,7 @@ function Placeholder() {
 export default function RootAppNavigator() {
   return (
     <NavigationContainer linking={LinkingConfiguration}>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="BottomTabNavigator">
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}
@@ -76,17 +76,7 @@ export default function RootAppNavigator() {
         <Stack.Screen
           name="TimerScreen"
           component={TimerScreen}
-          options={{
-            headerBackImage: ({ tintColor }) => (
-              <Icon
-                name="MaterialIcons/arrow-back-ios"
-                size={Platform.OS === 'ios' ? 21 : 24}
-                color={tintColor}
-                style={[styles.headerIcon, styles.headerIconLeft]}
-              />
-            ),
-            title: 'Timer',
-          }}
+          options={{ title: 'Timer' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

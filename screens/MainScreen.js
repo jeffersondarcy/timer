@@ -3,10 +3,19 @@ import * as GlobalStyles from '../GlobalStyles.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as CustomCode from '../custom-files/CustomCode';
 import addNewTimer from '../global-functions/addNewTimer';
+import deleteAllTimers from '../global-functions/deleteAllTimers';
+import deleteTimer from '../global-functions/deleteTimer';
 import * as Utils from '../utils';
-import { Button, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
+import {
+  Button,
+  IconButton,
+  ScreenContainer,
+  Spacer,
+  Touchable,
+  withTheme,
+} from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 const MainScreen = props => {
   const Constants = GlobalVariables.useValues();
@@ -23,7 +32,6 @@ const MainScreen = props => {
         return;
       }
       addNewTimer(Variables, setGlobalVariableValue);
-      console.log(Constants['timers']);
     } catch (err) {
       console.error(err);
     }
@@ -47,21 +55,41 @@ const MainScreen = props => {
         renderItem={({ item }) => {
           const listData = item;
           return (
-            <Touchable
-              onPress={() => {
-                try {
-                  navigation.navigate('TimerScreen', { id: listData?.start });
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
-            >
+            <View style={styles(theme).Viewce4accf0}>
+              <IconButton
+                onPress={() => {
+                  try {
+                    deleteTimer(
+                      Variables,
+                      setGlobalVariableValue,
+                      listData?.start
+                    );
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                style={styles(theme).IconButton298ff576}
+                size={32}
+                icon={'Ionicons/ios-trash-outline'}
+              />
               <View>
-                <Utils.CustomCodeErrorBoundary>
-                  <CustomCode.Timer {...listData} />
-                </Utils.CustomCodeErrorBoundary>
+                <Touchable
+                  onPress={() => {
+                    try {
+                      navigation.navigate('TimerScreen', {
+                        id: listData?.start,
+                      });
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  <Utils.CustomCodeErrorBoundary>
+                    <CustomCode.Timer {...listData} />
+                  </Utils.CustomCodeErrorBoundary>
+                </Touchable>
               </View>
-            </Touchable>
+            </View>
           );
         }}
         style={GlobalStyles.FlatListStyles(theme)['List']}
@@ -82,15 +110,31 @@ const MainScreen = props => {
         style={GlobalStyles.ButtonStyles(theme)['Button']}
         title={'Start New Timer'}
       />
-      <Utils.CustomCodeErrorBoundary>
-        <></>
-      </Utils.CustomCodeErrorBoundary>
+      <Spacer right={8} left={8} bottom={3} top={3} />
+      <Button
+        onPress={() => {
+          try {
+            deleteAllTimers(setGlobalVariableValue);
+          } catch (err) {
+            console.error(err);
+          }
+        }}
+        style={[
+          GlobalStyles.ButtonStyles(theme)['Button'],
+          styles(theme).Buttonf5474ac2,
+        ]}
+        title={'Delete All Timers'}
+      />
+      <Spacer top={8} right={8} bottom={8} left={8} />
     </ScreenContainer>
   );
 };
 
 const styles = theme =>
   StyleSheet.create({
+    Buttonf5474ac2: { backgroundColor: theme.colors['Error'] },
+    IconButton298ff576: { left: '70%' },
+    Viewce4accf0: { alignItems: 'center', flexDirection: 'row' },
     screen: { backgroundColor: theme.colors['Background'] },
   });
 
